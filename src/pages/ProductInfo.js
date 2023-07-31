@@ -3,16 +3,24 @@ import styled from 'styled-components';
 import { FaStar } from 'react-icons/fa';
 
 
+
 const Wrap = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 15px;
+  padding-top: 1px;
+  .h{
+    margin: 0px auto;
+    color: gray;
+  }
+  
 `;
 
 
 const Stars = styled.div`
     display: flex;
-    padding-top: 5px;
+    padding-top: -7px;
+    padding-bottom: 15px;
+    margin: 0px auto;
 
     & svg {
     color: gray;
@@ -24,7 +32,7 @@ const Stars = styled.div`
     }
 
     & svg:hover ~ svg {
-    color: gray;
+    color: gray
     }
 
     .yellowStar {
@@ -117,6 +125,9 @@ const Template = styled.div`
         border: 2px solid gray;
         border-radius: 20px;
     }
+    .h3{
+        margin: 0px auto;
+    }
 `;
 
 const Write=styled.div`
@@ -134,18 +145,24 @@ const Write=styled.div`
         margin-right:4px;
     }
     .writerecently{
-        
         border-right:2px solid gray;
-        margin-right:4px;
+        padding-right:8px;
+        margin-right:8px;
         margin-left:4px;
     }
     .writelong{
         border-right:2px solid gray;
-        margin-right:4px;
+        padding-right:8px;
+        margin-right:8px;
     }
-    .writemyreview{
-        
+    .writebutton{
+        font-size: 15px;
+        color: white;
+        background: green;
+        border-radius:20px;
+        border: 2px solid green;
     }
+    
 `;
 const ARRAY = [0, 1, 2, 3, 4];
 
@@ -159,33 +176,164 @@ const ModalDesign=styled.div`
         background: rgba(0, 0, 0, 0.6); 
     }
     .reviewmodal{
-        width: 480px;
-        height: 621px;
+        width: 700px;
+        height: 860px;
         background-color: white;
         position: relative;
         box-sizing: border-box;
         margin: 50px auto;
         padding: 20px;
-        background: #fff;  
+        background: #fff; 
+  
     }
-`
-function Modal(){
+    .modal-header{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding-right: 20px;
+    }
+    .centered-h2 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .review-button{
+        width: 440px;
+        height: 50px;
+        display: block; /* 버튼을 block 요소로 변경합니다. */
+        margin: 0px auto;
+        background: green;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        border: 2px solid green;
+        border-radius: 10px;
+    }
+
+`;
+
+const Boxexplain=styled.div`
+    width: 600px;
+    height: 150px;
+    border: 2px solid gray;
+    border-radius: 10px;
+    margin: 20px auto;
+    padding: 8px;
+    box-sizing: border-box;
+    
+    .textarea-wrapper{
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+    textarea{
+        resize: none;
+        border: none;
+        outline: none;
+        width: 100%;
+        height: 100%;
+    }
+
+    p {
+        position: absolute; /* Add absolute position to the <p> tag */
+        bottom: -15px; /* Adjust the value to control the vertical position */
+        right: 5px; /* Adjust the value to control the horizontal position */
+        color: gray;
+    }
+`;
+   
+const Explain=styled.span`
+   font-weight: bold;
+   font-size: 18px;
+   margin-right: 8px;
+   margin-left: 30px;
+
+`;
+
+function Modal({ closeModal }){
+    const [clicked, setClicked] = useState([false, false, false, false, false]);
+
+    const handleStarClick = index => {
+        let clickStates = [...clicked];
+        for (let i = 0; i < 5; i++) {
+        clickStates[i] = i <= index ? true : false;
+        }
+        setClicked(clickStates);
+    };
+
+    useEffect(() => {
+        sendReview();
+    }, [clicked]); //컨디마 컨디업
+
+    const sendReview = () => {
+        let score = clicked.filter(Boolean).length;
+        // fetch('http://52.78.63.175:8000/movie', {
+        //   method: 'POST',
+        //   Headers: {
+        //     Authroization: 'e7f59ef4b4900fe5aa839fcbe7c5ceb7',
+        //   },
+        //   body: JSON.stringify({
+        //     movie_id:1
+        //     star: score,
+        //   }),
+        // });
+    };
+
     let [modal,setModal]=useState(false); //UI의 현재 상태 저장 //state에 따라 UI가 어떻게 보일지 작성
+    
+    const [inputCount, setInputCount] = useState(0);
+
+    const onTextareaHandler = (e) => {
+        setInputCount(
+        e.target.value.replace(/[\0-\x7f]|([0-\u07ff]|(.))/g, "$&$1$2").length
+        );
+    };
+
     return(
         <ModalDesign>
         <div className="modal">
             <div className="reviewmodal">
-                <h2>제품 후기 작성하기</h2>
-                <button className="close" onClick={()=>setModal(false)}>X 닫기</button>
-                <h3>좋았던 점</h3><span className="explain">20자 이상</span>
-                <div>
-                    <h4 className="boxexplain">내용을 입력하세요</h4>
+                <div className="modal-header">
+                    <span className="close" style={{color:"gray",lineHeight:"16px"}} onClick={closeModal}>X 닫기</span>
                 </div>
-                <h3>아쉬웠던 점</h3><span>20자 이상</span>
-                <div>
-                <h4 className="boxexplain">내용을 입력하세요</h4>
-                </div>
-                <h3>사진</h3><span className="explain">제품과 무관한 사진일 경우 후기 수정 요청을 드리거나, 관리자에 의해 삭제될 수 있습니다.</span>
+                <h2 className="centered-h2">제품 후기 작성하기</h2>
+                <Wrap>
+                    <Stars>
+                        {ARRAY.map((el, idx) => {
+                            return (
+                                <FaStar
+                                key={idx}
+                                size="40"
+                                onClick={() => handleStarClick(el)}
+                                className={clicked[el] && 'yellowStar'}
+                                />
+                            );
+                        })}
+                    </Stars>
+                    <span className="h">평점을 남겨주세요</span>
+                </Wrap>   
+                <Explain><span>좋았던 점</span></Explain><span style={{color: "gray"}}>20자 이상</span>
+                <Boxexplain>
+                    <div className="textarea-wrapper">
+                    <textarea onChange={onTextareaHandler} maxLength="5000" placeholder="내용을 입력하세요."></textarea>
+                    <p>
+                        <span>{inputCount}</span> 
+                        <span>/5000 자</span>
+                    </p>
+                    </div>
+                </Boxexplain>
+                <Explain><span>아쉬웠던 점</span></Explain><span style={{color: "gray"}}>20자 이상</span>
+                <Boxexplain>
+                    <div className="textarea-wrapper">
+                    <textarea onChange={onTextareaHandler} maxLength="5000" placeholder="내용을 입력하세요."></textarea>
+                    <p>
+                        <span>{inputCount}</span> 
+                        <span>/5000 자</span>
+                    </p>
+                    </div>
+                </Boxexplain>
+                <Explain><span>사진</span></Explain><span style={{color: "gray", fontSize: "14px"}}>제품과 무관한 사진일 경우 후기 수정 요청을 드리거나, 관리자에 의해 삭제될 수 있습니다.</span>
+                <button className="review-button">후기 등록하기</button>
                 
             </div>
             {
@@ -199,6 +347,10 @@ function Modal(){
 
 function Info() {
     const [clicked, setClicked] = useState([false, false, false, false, false]);
+
+    const closeModal = () => {
+        setModal(false);
+    };
 
     const handleStarClick = index => {
         let clickStates = [...clicked];
@@ -263,10 +415,10 @@ function Info() {
                 <div className="container">
                     <div className="row">
                         <div className="good">
-                            <h3>좋았던 점</h3>
+                            <h3 className="h3">좋았던 점</h3>
                         </div>
                         <div className="bad">
-                            <h3>아쉬웠던 점</h3>
+                            <h3 className="h3">아쉬웠던 점</h3>
                         </div>
                     </div>
                 </div>
@@ -275,8 +427,7 @@ function Info() {
 
                 <div className="writeblock">
                     <span className="writereview" onClick={()=>{setModal(true)}}>
-                    
-                        후기 작성하기
+                        <button className="writebutton">후기 작성하기</button>
                     </span>
                     <span className="writerecently">최신순</span>
                     <span className="writelong">오래된순</span>
@@ -285,8 +436,8 @@ function Info() {
                 
             </Write>
             {
-                modal === true ? <Modal/> : null
-                //삼항연산자 -> 조건문 대신 사용
+                
+                modal === true && <Modal closeModal={closeModal} />
             }
         </div>
     );
