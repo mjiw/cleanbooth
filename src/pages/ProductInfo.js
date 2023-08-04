@@ -1,6 +1,7 @@
 import React,{useState, useEffect} from "react";
 import styled from 'styled-components';
 import { FaStar } from 'react-icons/fa';
+import { IoIosAddCircleOutline } from "react-icons/io";
 
 
 
@@ -40,34 +41,7 @@ const Stars = styled.div`
     }
 `;
 
-const DashedText = styled.div`
-    .review {
-        display: flex;
-        flex-basis: 100%;
-        align-items: center;
-        margin: 8px 0px;
-    }
-    
-    .review:before {
-        content: "";
-        flex-grow: 1;
-        height: 1px;
-        font-size: 0px;
-        line-height: 0px;
-        margin: 0 16px;
-        border: 2px dashed green;
-    }
 
-    .review:after {
-        content: "";
-        flex-grow: 1;
-        height: 1px;
-        font-size: 0px;
-        line-height: 0px;
-        border: 2px dashed green;
-        margin: 0 16px;
-    }  
-`;
 const ScoreBox = styled.div`
     .score {
         display: flex;
@@ -98,6 +72,24 @@ const ScoreBox = styled.div`
     
     
 `;
+
+const DashedText = styled.div`
+    margin-bottom: 40px;
+    .dash{
+        border: 1px dashed #009F50;
+        flex: auto;
+    }
+    .dashedhr{
+        margin-top:200px;
+        display: flex;
+        align-items:center;
+    }
+    .txt{
+        padding: 0 10px;
+        font-weight: bold;
+        font-size: 15pt;
+    }
+`
 
 const Template = styled.div`
     .good {
@@ -140,26 +132,31 @@ const Write=styled.div`
         width: 80%;
         float: right;
         text-align: right;
+        padding-bottom: 30px;
+        border-bottom: 1px solid gray;
     }
     .writereview{
         margin-right:4px;
     }
     .writerecently{
         border-right:2px solid gray;
-        padding-right:8px;
-        margin-right:8px;
-        margin-left:4px;
+        padding-right:11px;
+        margin-right:11px;
+        margin-left:8px;
     }
     .writelong{
         border-right:2px solid gray;
-        padding-right:8px;
-        margin-right:8px;
+        padding-right:11px;
+        margin-right:11px;
     }
     .writebutton{
+        margin-bottom: 10px;
+        width: 130px;
+        height: 35px;
         font-size: 15px;
         color: white;
         background: green;
-        border-radius:20px;
+        border-radius:13px;
         border: 2px solid green;
     }
     
@@ -201,7 +198,7 @@ const ModalDesign=styled.div`
         width: 440px;
         height: 50px;
         display: block; /* 버튼을 block 요소로 변경합니다. */
-        margin: 0px auto;
+        margin: 24px auto;
         background: green;
         color: white;
         font-size: 20px;
@@ -247,9 +244,86 @@ const Explain=styled.span`
    font-size: 18px;
    margin-right: 8px;
    margin-left: 30px;
+   margin-bottom: 40px;
 
 `;
+const PhotoContainer=styled.div`
+    display: inline-block;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    border: 2px solid gray;
+    border-radius: 20px;
+    margin-left: 30px;
+    margin-top: 20px;
+`
+const Photo=styled.div`
+    display: flex;
+    justify-content: center; /* 아이콘을 가로 방향으로 중앙에 위치시킴 */
+    align-items: center; /* 아이콘을 세로 방향으로 중앙에 위치시킴 */
+    width: 100%;
+    height: 100%;
+`
 
+const ImageContaier=styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    border: 2px solid gray;
+    border-radius: 20px;
+    margin-left: 30px;
+    margin-top: 20px;
+`
+const ParentContainer=styled.div`
+    display: flex;
+`
+const ListMap=styled.div`
+    width: 80%;
+    margin: 500px auto 0; 
+    border-bottom: 1px solid gray;
+    position: relative
+
+    .listmapfirst{
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        border-bottom: 1px solid gray;
+    }
+
+    .reviewcontent{
+        display: flex;
+        flex-direction: column;
+        margin-left: 30%;
+        margin-bottom: 20px;
+    }
+
+    .stars-container {
+        margin-top: -70px;
+        display: flex;
+        flex-direction: column;
+        margin-right: 25%;
+                          
+    }
+
+`
+const AskButton=styled.button`
+    align-items: center;
+    border: none;
+    background: white;
+    width: 440px;
+    height: 50px;
+    display: block;
+    margin: 24px auto;
+    background: green;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border: 2px solid green;
+    border-radius: 10px;
+    
+`
 function Modal({ closeModal }){
     const [clicked, setClicked] = useState([false, false, false, false, false]);
 
@@ -288,6 +362,19 @@ function Modal({ closeModal }){
         e.target.value.replace(/[\0-\x7f]|([0-\u07ff]|(.))/g, "$&$1$2").length
         );
     };
+
+    //이미지 업로드하는 부분
+    let [mainImg,setMainImg] = useState("");
+    const setPreviewImg = (event) => {
+
+        var reader = new FileReader();
+
+        reader.onload = function(event) {
+            setMainImg(event.target.result);
+        };
+
+        reader.readAsDataURL(event.target.files[0]);
+    }
 
     return(
         <ModalDesign>
@@ -333,6 +420,24 @@ function Modal({ closeModal }){
                     </div>
                 </Boxexplain>
                 <Explain><span>사진</span></Explain><span style={{color: "gray", fontSize: "14px"}}>제품과 무관한 사진일 경우 후기 수정 요청을 드리거나, 관리자에 의해 삭제될 수 있습니다.</span>
+                <ParentContainer>
+                    <PhotoContainer><Photo>
+                        <button>
+                            <label htmlFor="image-upload">
+                            <IoIosAddCircleOutline 
+                            size="40"
+                            color="gray"/></label>
+                            <input type="file" id="image-upload" accept="image/*" 
+                            onChange={setPreviewImg} style={{ display: "none" }}/> 
+                        </button>
+                        
+                    </Photo></PhotoContainer>
+
+                    <ImageContaier>
+                        <img alt="메인사진" src={mainImg} style={{maxWidth:"100px"}}></img>
+                    </ImageContaier>
+                </ParentContainer>
+
                 <button className="review-button">후기 등록하기</button>
                 
             </div>
@@ -366,6 +471,7 @@ function Info() {
 
     const sendReview = () => {
         let score = clicked.filter(Boolean).length;
+        //클린된 횟수 사용할 변수
         // fetch('http://52.78.63.175:8000/movie', {
         //   method: 'POST',
         //   Headers: {
@@ -379,14 +485,27 @@ function Info() {
     };
     
     let [modal,setModal]=useState(false); //UI의 현재 상태 저장 //state에 따라 UI가 어떻게 보일지 작성
+    
+    //리뷰관련변수
+    let [name,setName]=useState(['박지우']);
+    let [age,setAge]=useState(['20']);
+    let [star,setStar]=useState([]);
+    //score가 저장되어야함
+    let [good,setGood]=useState(['좋았던 점 내용']);
+    let [bad,setBad]=useState(['아쉬웠던 점 내용']);
+    let [photo,setPhoto]=useState(['메인사진']);
+    //
 
     return (
         <div>
             <DashedText>
-                <div className="review">
-                    <h2>구매후기</h2>
-                </div>
+            <div class='dashedhr'>
+                <hr className='dash'/>
+                <span class='txt'>구매 후기</span>
+                <hr className='dash'/>
+            </div>
             </DashedText>
+
             <ScoreBox>
                 <div className="score">
                     <div className="starscore">
@@ -423,6 +542,7 @@ function Info() {
                     </div>
                 </div>
             </Template>
+
             <Write>
 
                 <div className="writeblock">
@@ -439,6 +559,58 @@ function Info() {
                 
                 modal === true && <Modal closeModal={closeModal} />
             }
+
+            {
+                name.map(function(a,i){
+                    return(
+                        
+                        <ListMap>
+                            <div className="list" key={i}>
+                                <div>{name[i]}님의 후기</div>
+                                <div>{age[i]}대</div>
+                                
+                                <span>{star[i]}</span>
+                                <div className="listmapfirst">
+
+                                    <div className="stars-container">
+                                        <Stars>
+                                            {ARRAY.map((el, idx) => {
+                                                return (
+                                                    <FaStar
+                                                    key={idx}
+                                                    size="30"
+                                                    onClick={() => handleStarClick(el)}
+                                                    className={clicked[el] && 'yellowStar'}
+                                                    />
+                                                );
+                                            })}
+                                        </Stars>
+                                    </div>
+
+                                    <div className="reviewcontent">
+                                        <div>좋았던 점</div> 
+                                        <div>{good[i]}</div>
+                                        <div>아쉬웠던 점</div> 
+                                        <div>{bad[i]}</div> 
+                                        <ImageContaier><span>{photo[i]}</span></ImageContaier>
+                                        <div style={{marginTop:'20px', color:'gray', fontSize:'15px'}}>리뷰발행날짜</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ListMap>
+                    )
+
+                })
+            }
+
+            <DashedText>
+                <div class='dashedhr'>
+                    <hr className='dash'/>
+                    <span class='txt'>문의 하기</span>
+                    <hr className='dash'/>
+                </div>
+            </DashedText>
+            <AskButton>제품에 대해 1:1 문의하러 가기</AskButton>
         </div>
     );
 }
