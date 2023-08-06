@@ -343,9 +343,7 @@ const AskButton=styled.button`
     border-radius: 10px;
     
 `
-const Contaniner=styled.div`
 
-`
 function Modal({ closeModal }){
     const [clicked, setClicked] = useState([false, false, false, false, false]);
 
@@ -519,7 +517,6 @@ function Info() {
     //
 
     return (
-        <Contaniner>
             <div>
                 <DashedText>
                 <div class='dashedhr'>
@@ -648,7 +645,6 @@ function Info() {
                 </DashedText>
                 <AskButton onClick={()=>{}}>제품에 대해 1:1 문의하러 가기</AskButton>
             </div>
-        </Contaniner>
     );
 }
 
