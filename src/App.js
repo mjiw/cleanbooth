@@ -1,21 +1,21 @@
-import React from 'react';
-import {Routes, Route, Link} from 'react-router-dom'
+import './App.css';
+import Header from './Header';
+import Main from './Main';
+import Footer from './Footer';
 import Info from './pages/ProductInfo';
-
 
 function App() {
   return (
-    <div>
-      <Link to="/information">상세정보</Link>
-      <Routes>
-        <Route path="/information" element={
-          <>
-            <Info></Info>
-          </>
-        } />
-      </Routes>
+    <div className="App">
+      <div className='background'>
+      <Header/>
+      <Main/>
+      <Info></Info>
+      <Footer/>
+      </div>
     </div>
-  )   
+
+  );
 }
 
 export default App;

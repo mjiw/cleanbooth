@@ -4,7 +4,6 @@ import { FaStar } from 'react-icons/fa';
 import { IoIosAddCircleOutline } from "react-icons/io";
 
 
-
 const Wrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -19,7 +18,7 @@ const Wrap = styled.div`
 
 const Stars = styled.div`
     display: flex;
-    padding-top: -7px;
+    padding-top: 0px;
     padding-bottom: 15px;
     margin: 0px auto;
 
@@ -43,6 +42,10 @@ const Stars = styled.div`
 
 
 const ScoreBox = styled.div`
+    width: 70%;
+    display: block;
+    margin: 0px auto;
+
     .score {
         display: flex;
         align-items: center;
@@ -65,19 +68,28 @@ const ScoreBox = styled.div`
     .starscore {
         margin: 5%;
         display: flex;
-        align-items: center;
-        text-align: center;
+        flex-direction: row;
+        align-items: flex-start;
         float:left;
     }
     
-    
+    .photoreview{
+        display: flex;
+        flex-direction: row;
+       
+    }
 `;
 
 const DashedText = styled.div`
-    margin-bottom: 40px;
+    width: 70%;
+    display: block;
+    margin: 0px auto;
+
     .dash{
         border: 1px dashed #009F50;
         flex: auto;
+        display: flex;
+        align-items: center;
     }
     .dashedhr{
         margin-top:200px;
@@ -85,17 +97,20 @@ const DashedText = styled.div`
         align-items:center;
     }
     .txt{
-        padding: 0 10px;
+        padding: 30px 10px;
         font-weight: bold;
         font-size: 15pt;
     }
 `
 
 const Template = styled.div`
+    width: 70%;
+    display: block;
+    margin: 0px auto;
     .good {
         text-align: center;
-        width: 35%;
-        height: 200px;
+        width: 30%;
+        height: 100px;
         padding: 2rem;
         float: left;
         clear: left;
@@ -107,8 +122,8 @@ const Template = styled.div`
 
     .bad {
         text-align: center;
-        width: 35%;
-        height: 200px;
+        width: 30%;
+        height: 100px;
         padding: 2rem;
         float: right;
         clear: right;
@@ -119,17 +134,19 @@ const Template = styled.div`
     }
     .h3{
         margin: 0px auto;
+        font-weight: bold;
+        font-size: 12pt;
     }
 `;
 
 const Write=styled.div`
     .writeblock{
         display: block;
-        margin-left: 10%;
-        margin-right: 10%;
+        margin-left: 15%;
+        margin-right: 15%;
         margin-top: 40px;
         margin-bottom: 40px;
-        width: 80%;
+        width: 70%;
         float: right;
         text-align: right;
         padding-bottom: 30px;
@@ -255,6 +272,7 @@ const PhotoContainer=styled.div`
     border: 2px solid gray;
     border-radius: 20px;
     margin-left: 30px;
+    margin-right: 10px;
     margin-top: 20px;
 `
 const Photo=styled.div`
@@ -273,38 +291,39 @@ const ImageContaier=styled.div`
     height: 100px;
     border: 2px solid gray;
     border-radius: 20px;
-    margin-left: 30px;
+    margin-right:10px;
     margin-top: 20px;
 `
 const ParentContainer=styled.div`
     display: flex;
 `
 const ListMap=styled.div`
-    width: 80%;
-    margin: 500px auto 0; 
+    width: 70%;
+    display: flex;
+    margin: 0px auto; 
     border-bottom: 1px solid gray;
-    position: relative
+    .textlist{
+        margin-right: 160px;
+    }
 
-    .listmapfirst{
+    .listmapfirst{ 
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
         align-items: flex-start;
-        border-bottom: 1px solid gray;
     }
 
     .reviewcontent{
         display: flex;
         flex-direction: column;
-        margin-left: 30%;
         margin-bottom: 20px;
     }
 
     .stars-container {
-        margin-top: -70px;
+        margin-bottom: 20px;
         display: flex;
-        flex-direction: column;
-        margin-right: 25%;
-                          
+        align-items: center;
+        justify-content: flex-start;
+        
     }
 
 `
@@ -323,6 +342,9 @@ const AskButton=styled.button`
     border: 2px solid green;
     border-radius: 10px;
     
+`
+const Contaniner=styled.div`
+
 `
 function Modal({ closeModal }){
     const [clicked, setClicked] = useState([false, false, false, false, false]);
@@ -497,121 +519,136 @@ function Info() {
     //
 
     return (
-        <div>
-            <DashedText>
-            <div class='dashedhr'>
-                <hr className='dash'/>
-                <span class='txt'>구매 후기</span>
-                <hr className='dash'/>
-            </div>
-            </DashedText>
-
-            <ScoreBox>
-                <div className="score">
-                    <div className="starscore">
-                        <Wrap>
-                           <h3>별점</h3>
-                            <Stars>
-                                {ARRAY.map((el, idx) => {
-                                    return (
-                                        <FaStar
-                                        key={idx}
-                                        size="50"
-                                        onClick={() => handleStarClick(el)}
-                                        className={clicked[el] && 'yellowStar'}
-                                        />
-                                    );
-                                })}
-                            </Stars>
-                        </Wrap>   
-                    </div>
-                    <div className="photoreview">
-                        <h3>사진 후기</h3>
-                    </div>
-                </div>
-            </ScoreBox>
-            <Template>
-                <div className="container">
-                    <div className="row">
-                        <div className="good">
-                            <h3 className="h3">좋았던 점</h3>
-                        </div>
-                        <div className="bad">
-                            <h3 className="h3">아쉬웠던 점</h3>
-                        </div>
-                    </div>
-                </div>
-            </Template>
-
-            <Write>
-
-                <div className="writeblock">
-                    <span className="writereview" onClick={()=>{setModal(true)}}>
-                        <button className="writebutton">후기 작성하기</button>
-                    </span>
-                    <span className="writerecently">최신순</span>
-                    <span className="writelong">오래된순</span>
-                    <span className="writemyreview">내가 쓴 리뷰보기</span>
-                </div>
-                
-            </Write>
-            {
-                
-                modal === true && <Modal closeModal={closeModal} />
-            }
-
-            {
-                name.map(function(a,i){
-                    return(
-                        
-                        <ListMap>
-                            <div className="list" key={i}>
-                                <div>{name[i]}님의 후기</div>
-                                <div>{age[i]}대</div>
-                                
-                                <span>{star[i]}</span>
-                                <div className="listmapfirst">
-
-                                    <div className="stars-container">
-                                        <Stars>
-                                            {ARRAY.map((el, idx) => {
-                                                return (
-                                                    <FaStar
-                                                    key={idx}
-                                                    size="30"
-                                                    onClick={() => handleStarClick(el)}
-                                                    className={clicked[el] && 'yellowStar'}
-                                                    />
-                                                );
-                                            })}
-                                        </Stars>
-                                    </div>
-
-                                    <div className="reviewcontent">
-                                        <div>좋았던 점</div> 
-                                        <div>{good[i]}</div>
-                                        <div>아쉬웠던 점</div> 
-                                        <div>{bad[i]}</div> 
-                                        <ImageContaier><span>{photo[i]}</span></ImageContaier>
-                                        <div style={{marginTop:'20px', color:'gray', fontSize:'15px'}}>리뷰발행날짜</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </ListMap>
-                    )
-
-                })
-            }
-
-            <DashedText>
+        <Contaniner>
+            <div>
+                <DashedText>
                 <div class='dashedhr'>
                     <hr className='dash'/>
-                    <span class='txt'>문의 하기</span>
+                    <span class='txt'>구매 후기</span>
                     <hr className='dash'/>
                 </div>
-            </DashedText>
-            <AskButton>제품에 대해 1:1 문의하러 가기</AskButton>
-        </div>
+                </DashedText>
+
+                <ScoreBox>
+                    <div className="score">
+                        <div className="starscore">
+                            <Wrap>
+                            <div style={{display: "flex", justifyContent: "flex-start", marginBottom:"20px", marginTop:"-50px",fontWeight: "bold", fontSize: "12pt"}}>별점</div>
+                                <Stars>
+                                    {ARRAY.map((el, idx) => {
+                                        return (
+                                            <FaStar
+                                            key={idx}
+                                            size="40"
+                                            onClick={() => handleStarClick(el)}
+                                            className={clicked[el] && 'yellowStar'
+                                            }
+                                            />
+                                        );
+                                    })}
+                                </Stars>
+                            </Wrap>   
+                        </div>
+                        
+                        <div style={{display: "flex", justifyContent: "flex-start", flexDirection: "column", marginBottom:"20px", marginTop:"10px", fontWeight: "bold", fontSize: "12pt"}}>사진 후기
+                        
+                            <div className="photoreview" >
+                                <ImageContaier></ImageContaier>
+                                <ImageContaier></ImageContaier>
+                                <ImageContaier></ImageContaier>
+                                <ImageContaier></ImageContaier>
+                            </div>
+                        </div>
+                    </div>
+                </ScoreBox>
+                <Template>
+                    <div className="container">
+                        <div className="row">
+                            <div className="good">
+                                <div className="h3">좋았던 점</div>
+                            </div>
+                            <div className="bad">
+                                <div className="h3">아쉬웠던 점</div>
+                            </div>
+                        </div>
+                    </div>
+                </Template>
+
+                <Write>
+
+                    <div className="writeblock">
+                        <span className="writereview" onClick={()=>{setModal(true)}}>
+                            <button className="writebutton">후기 작성하기</button>
+                        </span>
+                        <span className="writerecently">최신순</span>
+                        <span className="writelong">오래된순</span>
+                        <span className="writemyreview">내가 쓴 리뷰보기</span>
+                    </div>
+                    
+                </Write>
+                {
+                    
+                    modal === true && <Modal closeModal={closeModal} />
+                }
+
+                {
+                    name.map(function(a,i){
+                        return(
+                            
+                            <ListMap>
+                                <div className="list" key={i}>
+                                    <div className="textlist">
+                                        <div>{name[i]}님의 후기</div>
+                                        <div>{age[i]}대</div>
+                                    </div>
+
+                                    <span>{star[i]}</span>
+
+                                    <div className="listmapfirst">
+
+                                        <div className="stars-container">
+                                            <Stars>
+                                                {ARRAY.map((el, idx) => {
+                                                    return (
+                                                        <FaStar
+                                                        key={idx}
+                                                        size="40"
+                                                        onClick={() => handleStarClick(el)}
+                                                        className={clicked[el] && 'yellowStar'}
+                                                        />
+                                                    );
+                                                })}
+                                            </Stars>
+                                        </div>
+
+                                        <div className="reviewcontent">
+                                            <div style={{fontWeight: "bold", fontSize: "12pt"}}>좋았던 점</div> 
+                                            <div>{good[i]}</div>
+                                            <div style={{fontWeight: "bold", fontSize: "12pt"}}>아쉬웠던 점</div> 
+                                            <div>{bad[i]}</div> 
+                                            <ImageContaier><span>{photo[i]}</span></ImageContaier>
+                                            <div style={{marginTop:'20px', color:'gray', fontSize:'15px'}}>리뷰발행날짜</div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </ListMap>
+                        )
+
+                    })
+                }
+
+                <DashedText>
+                    <div class='dashedhr'>
+                        <hr className='dash'/>
+                        <span class='txt'>문의 하기</span>
+                        <hr className='dash'/>
+                    </div>
+                </DashedText>
+                <AskButton onClick={()=>{}}>제품에 대해 1:1 문의하러 가기</AskButton>
+            </div>
+        </Contaniner>
     );
 }
 
