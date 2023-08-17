@@ -82,6 +82,7 @@ const Main = () => {
             </li>
           </ul>
         </div>
+        <hr/>
         <CleanReciepe></CleanReciepe>
 
       </div>
