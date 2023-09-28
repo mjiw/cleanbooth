@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {Routes, Route, Link, useNavigate} from 'react-router-dom';
 import {useState} from 'react';
+import { useParams } from "react-router-dom";
 
 const Blogdesign= styled.div`
     .chevron{
@@ -119,43 +120,84 @@ function Part({part}){
         </div>
     )
 }
-function Blog3(){
-    const parts=['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름'];
+
+function Youtube(){
+    const names=[
+        {   id:1,
+            bloger:'ooo',
+            recipename:'ooo',
+            postname:'무야호',
+            profil:require('../images/Rectangle 204.png'),
+            thumbnail:require('../images/Rectangle 206.png'),
+            linkurl:'https://www.naver.com/',
+            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
+        },
+        {   id:2,
+            bloger:'하우매니',
+            recipename:'룰루랄라',
+            postname:'무야호',
+            profil:require('../images/Rectangle 204.png'),
+            thumbnail:require('../images/Rectangle 206.png'),
+            linkurl:'https://www.naver.com/',
+            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
+        },
+        {   id:3,
+            bloger:'하우매니',
+            recipename:'룰루랄라',
+            postname:'무야호',
+            profil:require('../images/Rectangle 204.png'),
+            thumbnail:require('../images/Rectangle 206.png'),
+            linkurl:'https://www.naver.com/',
+            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
+        }
+    ];
+    
+    //useParams 사용
+    const {id} = useParams();
+    console.log(id);
+
+    //문자를 숫자로 변환
+    const blogData = names[parseInt(id)-1];
+    console.log(blogData);
+    
     // 한 행에 6개씩 나눠서 저장하는 배열
     const groupedparts=[];
-    for (let i = 0; i < parts.length; i += 6) {
-        const group = parts.slice(i, i + 6);
+    
+    for (let j = 0; j < blogData.parts.length; j += 6) {
+        const group = blogData.parts.slice(j, j + 6);
         groupedparts.push(group);
     }
-
+    
     //찜하기 버튼
     const [isWishadd, setIsWishAdd] = useState(false);
     const wishAddHandler = () => {
         setIsWishAdd(!isWishadd);
     }
     
+
     return(
         <div>
             <Blogdesign>
                 <div className="blogall">
-                    <p style={{fontSize:'14px'}}>클린 추천 레시피 with 푸드 블로거</p>
+                    <p style={{fontSize:'14px'}}>클린 추천 레시피 with 푸드 유튜버</p>
                     <img  className="chevron" src={require("../images/chevron.right.png")}></img>
-                    <span style={{fontSize:'14px', color:'#009F50',display: 'flex', alignItems: 'center'}}>블로거 이름</span>
+                    <span style={{fontSize:'14px', color:'#009F50',display: 'flex', alignItems: 'center'}}>{blogData.bloger}</span>
                 </div>
+
                 <div className="blogall">
-                    <p style={{fontSize: '48px',fontWeight:'bold', marginTop:'0px',marginBottom:'0px',marginRight:'12px'}}>레시피 제목</p>
+                    <p style={{fontSize: '48px',fontWeight:'bold', marginTop:'0px',marginBottom:'0px',marginRight:'12px'}}>{blogData.recipename}</p>
                     <button className="heartbox" onClick={()=>wishAddHandler()}>
                         {isWishadd===true ? <img className="heart" src={require("../images/heart (1).png")}></img> : <img className="heart" src={require("../images/heart.png")}></img>}
                     </button>
                 </div>
 
                 <div className="blogall">
-                    <img className='blogimage'src={require("../images/image blog.png")}></img>
-                    <button className="bloger">블로거 이름</button>
-                    <span className="videoname">게시글 제목</span>
+                    <img className='blogimage'src={require("../images/image 9.png")}></img>
+                    <button className="bloger">{blogData.bloger}</button>
+                    <span className="videoname">{blogData.postname}</span>
                     
                 </div>
-                <img className="thumbnailimage" src={require("../images/Rectangle 206.png")}></img>
+                <img className="thumbnailimage" src={blogData.thumbnail}></img>
                 <div className="link">
                     <label>
                         <a style={{margin:'8px'}}>더 자세히 보기</a>
@@ -165,7 +207,7 @@ function Blog3(){
                     </label>
                 </div>
                 <DashedText>
-                <div class='dashedhr'>
+                <div className='dashedhr'>
                     <hr className='dash'/>
                     <span class='txt'>재료</span>
                     <hr className='dash'/>
@@ -187,4 +229,4 @@ function Blog3(){
         </div>
     );
 }
-export default Blog3;
+export default Youtube;

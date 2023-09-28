@@ -1,5 +1,9 @@
 import { useState } from "react";
 import styled from "styled-components";
+import {Routes, Route, Link, useNavigate} from 'react-router-dom';
+import Blog from "../blog/Blog";
+import Youtube from "../youtube/Youtube";
+import Router from "../router/Routerzip"
 
 const Filterbox = styled.div`
 
@@ -44,6 +48,7 @@ const Recipebox=styled.div`
     }
     .recipetext{
         margin-left: 20px;
+        text-align: left;
     }
     .line{
         border: 1px solid #E6E6E6;
@@ -71,47 +76,90 @@ const Recipebox=styled.div`
     
 `
 
-function Recipe({recipe}){
-    //찜하기 버튼
-    const [isWishadd, setIsWishAdd] = useState(false);
-    const wishAddHandler = () => {
-        setIsWishAdd(!isWishadd);
-    }
-    return(
-        <div>
-            <Recipebox>
-                <div className="recipeblock">
-                    <img className='recipeimage'src={require("../images/Rectangle 205.png")}></img>
-                    <div className="recipetext">
-                        <p style={{textAlign:'left',fontSize:'20px'}}>{recipe.name}</p>
-                        <p style={{textAlign:'left',fontSize:'15px',color:'#999999'}}>{recipe.from}</p>
-                    </div>
-                    <div className="design">
-                        <button className="heartbox" onClick={()=>wishAddHandler()}>
-                            {isWishadd===true ? <img className="heart" src={require("../images/heart (1).png")}></img> : <img className="heart" src={require("../images/heart.png")}></img>}
-                        </button>
-                    </div>
-                </div>
-    
-                <hr className="line"></hr>
-            
-                
-            </Recipebox>
-        </div>
-    )
-}
-function Korean(){
-    //레시피 검색 데이터
-    const recipes=[
-        {name:'레시피 제목1', from: '출처1'},
-        {name:'레시피 제목2', from:'출처2'}
-    ]
 
+function Korean(){
+    const names=[
+        {   id:1,
+            bloger:'하우매니',
+            recipename:'ooo',
+            postname:'ooo',
+            profil:require('../images/Rectangle 204.png'),
+            thumbnail:require('../images/Rectangle 206.png'),
+            linkurl:'https://www.naver.com/',
+            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
+        },
+        {   id:2,
+            bloger:'하우매니',
+            recipename:'룰루랄라',
+            postname:'무야호',
+            profil:require('../images/Rectangle 204.png'),
+            thumbnail:require('../images/Rectangle 206.png'),
+            linkurl:'https://www.naver.com/',
+            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
+        },
+        {   id:3,
+            bloger:'하우매니',
+            recipename:'룰루랄라',
+            postname:'무야호',
+            profil:require('../images/Rectangle 204.png'),
+            thumbnail:require('../images/Rectangle 206.png'),
+            linkurl:'https://www.naver.com/',
+            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
+        },
+        {   id:4,
+            bloger:'하우매니',
+            recipename:'룰루랄라',
+            postname:'무야호',
+            profil:require('../images/Rectangle 204.png'),
+            thumbnail:require('../images/Rectangle 206.png'),
+            linkurl:'https://www.naver.com/',
+            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
+        },
+        {   id:5,
+            bloger:'하우매니',
+            recipename:'룰루랄라',
+            postname:'무야호',
+            profil:require('../images/Rectangle 204.png'),
+            thumbnail:require('../images/Rectangle 206.png'),
+            linkurl:'https://www.naver.com/',
+            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
+        },
+        {   id:6,
+            bloger:'하우매니',
+            recipename:'룰루랄라',
+            postname:'무야호',
+            profil:require('../images/Rectangle 204.png'),
+            thumbnail:require('../images/Rectangle 206.png'),
+            linkurl:'https://www.naver.com/',
+            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
+        },
+        {   id:7,
+            bloger:'하우매니',
+            recipename:'룰루랄라',
+            postname:'무야호',
+            profil:require('../images/Rectangle 204.png'),
+            thumbnail:require('../images/Rectangle 206.png'),
+            linkurl:'https://www.naver.com/',
+            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
+        }
+    ];
+    
     //검색결과 갯수
     const [search,setsearch]=useState();
     const searchNumber = (lenthnumber) => {
         setsearch(lenthnumber);
     }
+    //찜하기 버튼
+    const [isWishadd, setIsWishAdd] = useState();
+    const wishAddHandler = () => {
+        setIsWishAdd(!isWishadd);
+    }
+    //페이지 이동을 위한
+    const navigate=useNavigate();
+
+    const handleButtonClick=(path)=>{
+        navigate(path);
+    };
 
     return(
         <div>
@@ -166,13 +214,32 @@ function Korean(){
 
             <p style={{textAlign:'left',margin:'40px 115px'}}>검색결과N건</p>
             {   //Recipe라는 함수에 데이터 변수전달
-                recipes.map((recipe,i)=>(
-                    <div>
-                        <Recipe recipe={recipe} key={i}/>  
+                names.map((name,i)=>(
+                    <div key={i}>
+                        <Recipebox>
+                            <div className="recipeblock">
+                                <img className='recipeimage'src={name.profil}></img>
+                                <div className="recipetext">
+                                    <button onClick={() => handleButtonClick(`/recommand/${name.id}`)} style={{fontSize:'20px',border: 'none',backgroundColor:'transparent',padding:'0px'}}>{name.recipename}</button>
+                                    <p style={{fontSize:'15px',color:'#999999'}}>{name.linkurl}</p>
+                                </div>
+                                <div className="design">
+                                    <button className="heartbox" onClick={()=>wishAddHandler()}>
+                                        {isWishadd===true ? <img className="heart" src={require("../images/heart (1).png")}></img> : <img className="heart" src={require("../images/heart.png")}></img>}
+                                    </button>
+                                </div>
+                            </div>
+                
+                            <hr className="line"></hr>
+                        </Recipebox>
+                        
                     </div>
                 ))
             }
+            
         </div>
+        
     );
+ 
 }
 export default Korean;

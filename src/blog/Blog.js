@@ -124,6 +124,24 @@ function Blog(){
     const names=[
         {   id:1,
             bloger:'하우매니',
+            recipename:'ooo',
+            postname:'ooo',
+            profil:require('../images/Rectangle 204.png'),
+            thumbnail:require('../images/Rectangle 206.png'),
+            linkurl:'https://www.naver.com/',
+            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
+        },
+        {   id:2,
+            bloger:'하우매니',
+            recipename:'룰루랄라',
+            postname:'무야호',
+            profil:require('../images/Rectangle 204.png'),
+            thumbnail:require('../images/Rectangle 206.png'),
+            linkurl:'https://www.naver.com/',
+            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
+        },
+        {   id:3,
+            bloger:'하우매니',
             recipename:'룰루랄라',
             postname:'무야호',
             profil:require('../images/Rectangle 204.png'),
@@ -133,26 +151,25 @@ function Blog(){
         }
     ];
     
+    //useParams 사용
+    const {id} = useParams();
+
+    //문자를 숫자로 변환
+    const blogData = names[parseInt(id)-1];
+
     // 한 행에 6개씩 나눠서 저장하는 배열
     const groupedparts=[];
-    for(let i=0; i<names.length;i+=1){
-        for (let j = 0; j < names[i].parts.length; j += 6) {
-            const group = names[i].parts.slice(i, i + 6);
-            groupedparts.push(group);
-        }
+    
+    for (let j = 0; j < blogData.parts.length; j += 6) {
+        const group = blogData.parts.slice(j, j + 6);
+        groupedparts.push(group);
     }
-
+    
     //찜하기 버튼
     const [isWishadd, setIsWishAdd] = useState(false);
     const wishAddHandler = () => {
         setIsWishAdd(!isWishadd);
     }
-    
-    //useParams 사용
-    const {id} = useParams();
- 
-    //문자를 숫자로 변환
-    const blogData = names[parseInt(id)-1];
     
 
     return(

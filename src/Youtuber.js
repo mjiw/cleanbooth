@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {Routes, Route, Link, useNavigate} from 'react-router-dom';
-import {useState,useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import { useParams } from "react-router-dom";
 
 const Blogdesign= styled.div`
@@ -38,10 +38,6 @@ const Blogdesign= styled.div`
         border-bottom: '2px solid black', 
         marginTop: '4px'
     }
-    .blogermidle{
-
-    }
-    
 
 `
 const DashedText = styled.div`
@@ -83,14 +79,14 @@ const Recipebox=styled.div`
     
 `
 
-function Bloger(){
-    const [bwriter,setbwriter]=useState([]);
+function Youtuber(){
+    const [ywriter,setYwriter]=useState([]);
     
     useEffect(()=>{
         fetch(`http://43.202.77.82:8080/recipe`,{method:"GET"})
         .then(res=>res.json())
         .then(data=>{
-            setbwriter(data.bwriter);
+            setYwriter(data.ywriter);
         })
     })
 
@@ -162,7 +158,7 @@ function Bloger(){
 
     //useParams 사용
     const {id} = useParams();
-    console.log(id);
+
     //문자를 숫자로 변환
     const blogData = names[parseInt(id)-1];
 
@@ -178,21 +174,21 @@ function Bloger(){
         <div>
             <Blogdesign>
                 <div className="blogall">
-                    <p style={{fontSize:'14px'}}>클린 추천 레시피 with 푸드 블로거</p>
+                    <p style={{fontSize:'14px'}}>클린 추천 레시피 with 푸드 유튜버</p>
                     <img  className="chevron" src={require("./images/chevron.right.png")}></img>
                     <span style={{fontSize:'14px', color:'#009F50',display: 'flex', alignItems: 'center'}}>{blogData.bloger}</span>
                 </div>
 
-                <div className="blogermidle">
+                <div>
                     <img className="blogprofil"src={blogData.profil}></img>
                     <p>{blogData.bloger}</p>
-                    <p>소개글. 블로거에 대한 소개글이 들어가는 칸.
-                        블로거에 대한 소개글이 들어가는 칸.</p>
+                    <p>소개글. 유튜버에 대한 소개글이 들어가는 칸.
+                        유튜버에 대한 소개글이 들어가는 칸.</p>
                 </div>
                 
                 <div className="link">
                     <label>
-                        <a style={{margin:'8px'}}>더 자세히 보기</a>
+                        <a href={blogData.linkurl} target='_blank'style={{margin:'8px', textDecoration:'none', color:'black'}}>더 자세히 보기</a>
                         <img style={{width:'14px',height:'14px'}}src={require("./images/arrow.up.right.png")}alt="화살표 이미지"></img>
                         <div style={{ width: '100%', borderBottom: '2px solid black', marginTop: '4px' }}></div>
          
@@ -224,4 +220,4 @@ function Bloger(){
         </div>
     );
 }
-export default Bloger;
+export default Youtuber;
