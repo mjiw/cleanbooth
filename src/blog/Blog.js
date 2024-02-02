@@ -171,7 +171,7 @@ function Blog(){
         setIsWishAdd(!isWishadd);
     }
     
-
+    
     return(
         <div>
             <Blogdesign>

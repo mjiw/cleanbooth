@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import {Link, useNavigate} from 'react-router-dom';
 import { useEffect, useState } from "react";
+import axios from "axios";
+
 const Partrecipe = styled.div`
     display: grid;
     grid-template-columns: 200px 200px 200px 200px;
@@ -99,87 +101,33 @@ function RecipeMain(){
     const handleButtonClick=(path)=>{
         navigate(path);
     };
-    
-    const [bwriter,setBwriter]=useState([]);
-    const [uwriter,setUwriter]=useState([]);
+ 
+    const [writer, setWriter] = useState({
+        uWriter: [],
+        bWriter: []
+    });
 
+    const url = "http://43.200.208.235:8080/recipe";
+  
     useEffect(()=>{
-        fetch(`http://43.202.77.82:8080/recipe`,{method:"GET"})
-        .then(res=>res.json())
-        .then(data=>{
-            setBwriter(data.bwriter);
-            setUwriter(data.uwriter);
-        })
-    })
+        axios
+            .get(url)
+            .then((res) => {
+                setWriter({
+                    uWriter: res.data.uWriter,
+                    bWriter: res.data.bWriter
+                  });
+                
+                console.log("성공");
+            })
+            .catch((Error) => {
+                console.log(Error);
+            }) 
+    }) 
 
-    const names=[
-        {   id:1,
-            bloger:'하우매니',
-            recipename:'ooo',
-            postname:'ooo',
-            profil:require('./images/Rectangle 204.png'),
-            thumbnail:require('./images/Rectangle 206.png'),
-            linkurl:'https://www.naver.com/',
-            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
-        },
-        {   id:2,
-            bloger:'하우매니',
-            recipename:'룰루랄라',
-            postname:'무야호',
-            profil:require('./images/Rectangle 204.png'),
-            thumbnail:require('./images/Rectangle 206.png'),
-            linkurl:'https://www.naver.com/',
-            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
-        },
-        {   id:3,
-            bloger:'하우매니',
-            recipename:'룰루랄라',
-            postname:'무야호',
-            profil:require('./images/Rectangle 204.png'),
-            thumbnail:require('./images/Rectangle 206.png'),
-            linkurl:'https://www.naver.com/',
-            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
-        },
-        {   id:4,
-            bloger:'하우매니',
-            recipename:'룰루랄라',
-            postname:'무야호',
-            profil:require('./images/Rectangle 204.png'),
-            thumbnail:require('./images/Rectangle 206.png'),
-            linkurl:'https://www.naver.com/',
-            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
-        },
-        {   id:5,
-            bloger:'하우매니',
-            recipename:'룰루랄라',
-            postname:'무야호',
-            profil:require('./images/Rectangle 204.png'),
-            thumbnail:require('./images/Rectangle 206.png'),
-            linkurl:'https://www.naver.com/',
-            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
-        },
-        {   id:6,
-            bloger:'하우매니',
-            recipename:'룰루랄라',
-            postname:'무야호',
-            profil:require('./images/Rectangle 204.png'),
-            thumbnail:require('./images/Rectangle 206.png'),
-            linkurl:'https://www.naver.com/',
-            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
-        },
-        {   id:7,
-            bloger:'하우매니',
-            recipename:'룰루랄라',
-            postname:'무야호',
-            profil:require('./images/Rectangle 204.png'),
-            thumbnail:require('./images/Rectangle 206.png'),
-            linkurl:'https://www.naver.com/',
-            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
-        }
-    ];
     return(
+        
         <div>
-
             <Text><p> 분야별 레시피 찾기</p></Text>
             <Partrecipe>
                 <div className="imagebox">
@@ -229,32 +177,28 @@ function RecipeMain(){
             <Text><p>클린 추천 레시피</p></Text>
             <Green><p>with 푸드 블로거</p></Green>
             <Recommend>
-
+                
                 {
-                    names.map((name, nameid) => (
-
-                        <div style={nameid % 5 === 0 ? { display: 'flex', flexWrap: 'wrap' } : {}}>
-                            {nameid % 2 == 0 ?
-                                <button onClick={() => handleButtonClick(`/blog/${name.id}`)} className="buttontagchild" key={nameid}>
+                    writer.bWriter.map((realdata, index) => (
+                        <div style={realdata.length % 5 === 0 ? { display: 'flex', flexWrap: 'wrap' } : {}} key={index}>
+                            {
+                            realdata.length % 2 == 0 ?
+                                <button onClick={() => handleButtonClick(`/blog/${realdata}`)} className="buttontagchild" key={index}>
                                     <div className="smallimagebox">
-                                        <img src={name.profil} className="smallimagecircle"></img>
+                                        <img className="smallimagecircle"></img>
                                     </div>
-                                    <p>{name.bloger}</p>
+                                    <p>{realdata}</p>
                                 </button>
                                 :
-                                <button onClick={() => handleButtonClick(`/blog/${name.id}`)} className="buttontag" key={nameid}>
+                                <button onClick={() => handleButtonClick(`/blog/${realdata}`)} className="buttontag" key={index}>
                                     <div className="smallimagebox">
-                                        <img src={name.profil} className="smallimagecircle"></img>
+                                        <img  className="smallimagecircle"></img>
                                     </div>
-                                    <p>{name.bloger}</p>
+                                    <p>{realdata}</p>
                                 </button>
                             }
-
                         </div>
-
                     ))
-
-
                 }
 
             </Recommend>
@@ -263,34 +207,33 @@ function RecipeMain(){
             <Text><p>클린 추천 레시피</p></Text>
             <Green><p>with 유튜버</p></Green>
             <Recommend>
-
-                {uwriter.length>0?(
-                    uwriter.map((yname, ynameid) => (
-
-                        <div style={ynameid % 5 === 0 ? { display: 'flex', flexWrap: 'wrap' } : {}}>
-                            {ynameid % 2 == 0 ?
-                                <button onClick={() => handleButtonClick(`/youtube/${yname.id}`)} className="buttontagchild" key={ynameid}>
+                {
+                    writer.uWriter.map((realdata, index) => (
+                        <div style={realdata.length % 5 === 0 ? { display: 'flex', flexWrap: 'wrap' } : {}} key={index}>
+                            {
+                            realdata.length % 2 == 0 ?
+                                <button onClick={() => handleButtonClick(`/youtube/${realdata}`)} className="buttontagchild" key={index}>
                                     <div className="smallimagebox">
-                                        <img src={yname.profil} className="smallimagecircle"></img>
+                                        <img className="smallimagecircle"></img>
                                     </div>
-                                    <p>{yname.bloger}</p>
+                                    <p>{realdata}</p>
                                 </button>
                                 :
-                                <button onClick={() => handleButtonClick(`/youtube/${yname.id}`)} className="buttontag" key={ynameid}>
+                                <button onClick={() => handleButtonClick(`/youtube/${realdata}`)} className="buttontag" key={index}>
                                     <div className="smallimagebox">
-                                        <img src={yname.profil} className="smallimagecircle"></img>
+                                        <img  className="smallimagecircle"></img>
                                     </div>
-                                    <p>{yname.bloger}</p>
+                                    <p>{realdata}</p>
                                 </button>
                             }
-
                         </div>
-
-                    ))):(<p>No data available</p>)
+                    //<p key={index}>{realdata}</p>
+                    ))
                 }
 
             </Recommend>
         </div>
     );
+    
 }
 export default RecipeMain;

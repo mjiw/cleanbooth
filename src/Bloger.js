@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {Routes, Route, Link, useNavigate} from 'react-router-dom';
 import {useState,useEffect} from 'react';
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const Blogdesign= styled.div`
     .chevron{
@@ -84,8 +85,48 @@ const Recipebox=styled.div`
 `
 
 function Bloger(){
-    const [bwriter,setbwriter]=useState([]);
     
+    const [writer, setWriter] = useState({
+        uWriter: [],
+        bWriter: []
+    });
+
+    const url = "http://43.200.208.235:8080/recipe";
+  
+    useEffect(()=>{
+        axios
+            .get(url)
+            .then((res) => {
+                setWriter({
+                    uWriter: res.data.uWriter,
+                    bWriter: res.data.bWriter
+                  });
+                
+                console.log("성공");
+            })
+            .catch((Error) => {
+                console.log(Error);
+            }) 
+    }) 
+    
+    const [bwriter,setbwriter]=useState(
+        {
+            item: {
+                writer: "",
+                writerIntro: "",
+                writerLink: ""
+            },
+            recipes: [
+                {
+                  name: '',
+                  link: '',
+                }
+            ]
+        }
+    );
+    const url1 = `http://43.200.208.235:8080/recipe/blog_writer/${writer.bWriter}`;
+
+    /*
     useEffect(()=>{
         fetch(`http://43.202.77.82:8080/recipe`,{method:"GET"})
         .then(res=>res.json())
@@ -93,74 +134,35 @@ function Bloger(){
             setbwriter(data.bwriter);
         })
     })
+    */
 
-    const names=[
-        {   id:1,
-            bloger:'하우매니',
-            recipename:'ooo',
-            postname:'ooo',
-            profil:require('./images/Rectangle 204.png'),
-            thumbnail:require('./images/Rectangle 206.png'),
-            linkurl:'https://www.naver.com/',
-            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
-        },
-        {   id:2,
-            bloger:'하우매니',
-            recipename:'룰루랄라',
-            postname:'무야호',
-            profil:require('./images/Rectangle 204.png'),
-            thumbnail:require('./images/Rectangle 206.png'),
-            linkurl:'https://www.naver.com/',
-            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
-        },
-        {   id:3,
-            bloger:'하우매니',
-            recipename:'룰루랄라',
-            postname:'무야호',
-            profil:require('./images/Rectangle 204.png'),
-            thumbnail:require('./images/Rectangle 206.png'),
-            linkurl:'https://www.naver.com/',
-            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
-        },
-        {   id:4,
-            bloger:'하우매니',
-            recipename:'룰루랄라',
-            postname:'무야호',
-            profil:require('./images/Rectangle 204.png'),
-            thumbnail:require('./images/Rectangle 206.png'),
-            linkurl:'https://www.naver.com/',
-            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
-        },
-        {   id:5,
-            bloger:'하우매니',
-            recipename:'룰루랄라',
-            postname:'무야호',
-            profil:require('./images/Rectangle 204.png'),
-            thumbnail:require('./images/Rectangle 206.png'),
-            linkurl:'https://www.naver.com/',
-            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
-        },
-        {   id:6,
-            bloger:'하우매니',
-            recipename:'룰루랄라',
-            postname:'무야호',
-            profil:require('./images/Rectangle 204.png'),
-            thumbnail:require('./images/Rectangle 206.png'),
-            linkurl:'https://www.naver.com/',
-            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
-        },
-        {   id:7,
-            bloger:'하우매니',
-            recipename:'룰루랄라',
-            postname:'무야호',
-            profil:require('./images/Rectangle 204.png'),
-            thumbnail:require('./images/Rectangle 206.png'),
-            linkurl:'https://www.naver.com/',
-            parts:['재료1','재료2','양배추 큰 잎 5장', '당근1/3', '애호박1/3', '두부1/2', '소금', '후추', '참기름']
-        }
-    ];
+    useEffect(()=>{
+        axios
+            .get(url1)
+            .then((res) => {
+                setbwriter({
+                    item: {
+                        writer: res.data.writer,
+                        writerIntro: res.data.writerIntro,
+                        writerLink: res.data.writerLink
+                    },
+                    recipes: [
+                        {
+                          name: res.data.name,
+                          link: res.data.link,
+                        }
+                    ]
+                  });
+                
+                console.log("성공");
+            })
+            .catch((Error) => {
+                console.log(Error);
+            }) 
+    }) 
 
-    //useParams 사용
+    
+    /*//useParams 사용
     const {id} = useParams();
     console.log(id);
     //문자를 숫자로 변환
@@ -173,19 +175,19 @@ function Bloger(){
         const group = blogData.parts.slice(j, j + 6);
         groupedparts.push(group);
     }
-
+*/
     return(
         <div>
             <Blogdesign>
                 <div className="blogall">
                     <p style={{fontSize:'14px'}}>클린 추천 레시피 with 푸드 블로거</p>
-                    <img  className="chevron" src={require("./images/chevron.right.png")}></img>
-                    <span style={{fontSize:'14px', color:'#009F50',display: 'flex', alignItems: 'center'}}>{blogData.bloger}</span>
+                    <img  className="chevron" src={bwriter.item.writerLink}></img>
+                    <span style={{fontSize:'14px', color:'#009F50',display: 'flex', alignItems: 'center'}}>{bwriter.item.writer}</span>
                 </div>
 
                 <div className="blogermidle">
-                    <img className="blogprofil"src={blogData.profil}></img>
-                    <p>{blogData.bloger}</p>
+                    <img className="blogprofil"src={bwriter.item.writerLink}></img>
+                    <p>{bwriter.item.writer}</p>
                     <p>소개글. 블로거에 대한 소개글이 들어가는 칸.
                         블로거에 대한 소개글이 들어가는 칸.</p>
                 </div>
@@ -201,19 +203,19 @@ function Bloger(){
                 <DashedText>
                 <div className='dashedhr'>
                     <hr className='dash'/>
-                    <span class='txt'>레시피 리스트</span>
+                    <span class='txt'>{bwriter.recipes.name}</span>
                     <hr className='dash'/>
                 </div>
                 </DashedText>
 
                 {   //Recipe라는 함수에 데이터 변수전달
-                blogData.parts.map((recipe,i)=>(
+                bwriter.recipes.map((recipe,i)=>(
                     <div>
                         <Recipebox>
                             <div className="recipeblock">
                                 <img className='recipeimage'src={require("./images/Rectangle 207.png")}></img>  
                             </div>
-                            <p style={{textAlign:'left',marginLeft:'14%'}}>제목</p>
+                            <p style={{textAlign:'left',marginLeft:'14%'}}>{recipe.name}</p>
                             <hr className="line"></hr>
                         </Recipebox>
                     </div>
